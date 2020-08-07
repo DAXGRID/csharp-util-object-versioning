@@ -12,8 +12,4 @@
     <ProjectReference Include="..\DAX.ObjectVersioning.Core\DAX.ObjectVersioning.Core.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\DAX.ObjectVersioning.Core\DAX.ObjectVersioning.Core.csproj" PrivateAssets="all" />
-  </ItemGroup>
-
 </Project>
