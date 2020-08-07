@@ -13,6 +13,7 @@ jobs:
       - run:
           name: Apt update
           command: apt-get update;
+      - run:
           name: Push to NuGet
           command: |
             dotnet pack --output ./publish --configuration Release -p:PackageVersion=${CIRCLE_TAG}
