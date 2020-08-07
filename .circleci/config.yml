@@ -13,7 +13,7 @@ jobs:
       - run:
           name: Push to NuGet
           command: |
-            dotnet pack ./DAX.ObjectVersioning.Graph/DAX.ObjectVersioning.Graph.csproj --output ./publish --configuration Release -p:PackageVersion=${CIRCLE_TAG}
+            dotnet pack --output ./publish --configuration Release -p:PackageVersion=${CIRCLE_TAG}
             dotnet nuget push --source "${NUGET_FEED_URL}" --api-key="${NUGET_KEY}" "./publish/*.nupkg"
 
 workflows:
