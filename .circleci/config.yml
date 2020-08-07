@@ -11,9 +11,6 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Apt update
-          command: apt-get update;
-      - run:
           name: Push to NuGet
           command: |
             dotnet pack --output ./publish --configuration Release -p:PackageVersion=${CIRCLE_TAG}
@@ -25,6 +22,6 @@ workflows:
       - publish-nuget:
           filters:
             tags:
-              only: /^v.*/
+              only: /^[0-9].*/
             branches:
               ignore: /.*/
