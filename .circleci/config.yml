@@ -6,6 +6,22 @@ executors:
     - image: mcr.microsoft.com/dotnet/core/sdk:3.1
 
 jobs:
+  build-app:
+    executor: dotnet-core-sdk
+    steps:
+      - checkout
+      - run:
+          name: Build
+          command: dotnet build
+
+  test-app:
+    executor: dotnet-core-sdk
+    steps:
+      - checkout
+      - run:
+          name: Test
+          command: dotnet test
+
   publish-nuget:
     executor: dotnet-core-sdk
     steps:
@@ -19,6 +35,16 @@ jobs:
 workflows:
   build-test-publish_nuget:
     jobs:
+      - build-app:
+          filters:
+            tags:
+              only: /.*/
+      - test-app:
+          requires:
+            - build-app
+          filters:
+            tags:
+              only: /.*/
       - publish-nuget:
           filters:
             tags:
