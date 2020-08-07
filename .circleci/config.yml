@@ -1,0 +1,29 @@
+version: 2.1
+
+executors:
+  dotnet-core-sdk:
+    docker:
+    - image: mcr.microsoft.com/dotnet/core/sdk:3.1
+
+jobs:
+  publish-nuget:
+    executor: dotnet-core-sdk
+    steps:
+      - checkout
+      - run:
+          name: Apt update
+          command: apt-get update;
+          name: Push to NuGet
+          command: |
+            dotnet pack --output ./publish --configuration Release -p:PackageVersion=${CIRCLE_TAG}
+            dotnet nuget push --source "${NUGET_FEED_URL}" --api-key="${NUGET_KEY}" ./publish/*.nupkg
+
+workflows:
+  build-test-publish_nuget:
+    jobs:
+      - publish-nuget:
+          filters:
+            tags:
+              only: /^v.*/
+            branches:
+              ignore: /.*/
