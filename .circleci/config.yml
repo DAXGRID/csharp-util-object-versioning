@@ -46,6 +46,8 @@ workflows:
             tags:
               only: /.*/
       - publish-nuget:
+          requires:
+            - test-app
           filters:
             tags:
               only: /^[0-9].*/
