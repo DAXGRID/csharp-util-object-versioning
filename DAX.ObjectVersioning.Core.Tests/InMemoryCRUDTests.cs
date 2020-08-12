@@ -110,7 +110,7 @@ namespace DAX.ObjectVersioning.Core.Tests
             Assert.Equal(4, manager.GetObjects().Count()); // We should have four object in the manager before transaction commit
 
             // Assert that GetObjects by internal version id works
-            Assert.Equal(1, manager.GetObjects(1).Count()); // In version 1 we should have 1 object
+            Assert.Single(manager.GetObjects(1)); // In version 1 we should have 1 object
             Assert.Equal(2, manager.GetObjects(2).Count()); // In version 2 we should have 2 object
             Assert.Equal(4, manager.GetObjects(3).Count()); // In version 3 we should have 4 object
         }
@@ -209,7 +209,7 @@ namespace DAX.ObjectVersioning.Core.Tests
             Assert.Contains(manager.GetObjects(1), o => o.Id == secondObj.Id && ((TestObjectA)o).Name == "second object");
 
             // In version 2 we should have only 1 object
-            Assert.Equal(1, manager.GetObjects(2).Count());
+            Assert.Single(manager.GetObjects(2));
             // In version 2 we should have the second object named "second object"
             Assert.Contains(manager.GetObjects(2), o => o.Id == secondObj.Id && ((TestObjectA)o).Name == "second object");
         }
@@ -289,7 +289,7 @@ namespace DAX.ObjectVersioning.Core.Tests
             Assert.Contains(manager.GetObjects(1), o => o.Id == secondObj.Id && ((TestObjectA)o).Name == "second object");
 
             // In version 2 we should have only 1 object
-            Assert.Equal(1, manager.GetObjects(2).Count());
+            Assert.Single(manager.GetObjects(2));
             // In version 2 we should have the second object named "second object"
             Assert.Contains(manager.GetObjects(2), o => o.Id == secondObj.Id && ((TestObjectA)o).Name == "second object");
 
@@ -297,7 +297,7 @@ namespace DAX.ObjectVersioning.Core.Tests
             Assert.Empty(manager.GetObjects(3));
 
             // In version 4 we should have 1 object
-            Assert.Equal(1, manager.GetObjects(4).Count());
+            Assert.Single(manager.GetObjects(4));
             // In version 4 we should have the second object named "second object version 2"
             Assert.Contains(manager.GetObjects(4), o => o.Id == secondObj.Id && ((TestObjectA)o).Name == "second object version 2");
         }
