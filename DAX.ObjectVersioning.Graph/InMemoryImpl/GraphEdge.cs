@@ -27,5 +27,15 @@ namespace DAX.ObjectVersioning.Graph
         {
             return _outV;
         }
+
+        public override List<IGraphObject> NeighborElements(long version)
+        {
+            var neighbors = new List<IGraphObject>();
+
+            neighbors.Add(InV(version));
+            neighbors.Add(OutV(version));
+
+            return neighbors;
+        }
     }
 }

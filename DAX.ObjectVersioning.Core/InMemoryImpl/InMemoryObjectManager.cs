@@ -199,5 +199,10 @@ namespace DAX.ObjectVersioning.Core
             else
                 return _lastCommitedVersion.InternalVersionId;
         }
+
+        public long GetLatestCommitedVersion()
+        {
+            return GetLatestVersion();
+        }
     }
 }

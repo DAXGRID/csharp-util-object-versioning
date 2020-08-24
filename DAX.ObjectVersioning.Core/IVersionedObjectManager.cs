@@ -16,5 +16,7 @@ namespace DAX.ObjectVersioning.Core
         IEnumerable<IVersionedObject> GetObjects(string customVersionId);
 
         IEnumerable<Change> GetChanges(int fromVersionId, int toVersionId);
+
+        long GetLatestCommitedVersion();
     }
 }

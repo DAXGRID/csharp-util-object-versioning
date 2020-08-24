@@ -48,5 +48,15 @@ namespace DAX.ObjectVersioning.Graph
         {
             _outE.Add(edge);
         }
+
+        public override List<IGraphObject> NeighborElements(long version)
+        {
+            var neighbors = new List<IGraphObject>();
+
+            neighbors.AddRange(InE(version));
+            neighbors.AddRange(OutE(version));
+
+            return neighbors;
+        }
     }
 }

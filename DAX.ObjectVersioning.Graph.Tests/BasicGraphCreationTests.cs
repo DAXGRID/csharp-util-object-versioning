@@ -72,6 +72,12 @@ namespace DAX.ObjectVersioning.Graph.Tests
 
             // E2 should have n3 as ingoing node
             Assert.Equal(n3, e2.OutV(version));
+
+            // Try traverse the graph from node 1
+            var traceResult = n1.UndirectionalDFS<GraphNode, GraphEdge>(version);
+
+            Assert.Equal(5, traceResult.Count());
+
         }
     }
 }
