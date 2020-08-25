@@ -12,5 +12,6 @@ namespace DAX.ObjectVersioning.Core
         IVersionedObject Add(IVersionedObject @object);
         void Delete(Guid id);
         void Update(IVersionedObject @object);
+        IVersionedObject? GetObject(Guid id);
     }
 }
