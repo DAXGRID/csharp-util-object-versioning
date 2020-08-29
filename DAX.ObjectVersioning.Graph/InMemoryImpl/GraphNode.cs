@@ -58,5 +58,18 @@ namespace DAX.ObjectVersioning.Graph
 
             return neighbors;
         }
+
+        /// <summary>
+        /// Copy ingoing and outgoing edge relationships from this node to another node
+        /// </summary>
+        /// <param name="copyTo"></param>
+        public void CopyEdgeRelationshipsTo(GraphNode copyTo)
+        {
+            foreach (var inE in this._inE)
+                copyTo._inE.Add(inE);
+
+            foreach (var outE in this._outE)
+                copyTo._outE.Add(outE);
+        }
     }
 }

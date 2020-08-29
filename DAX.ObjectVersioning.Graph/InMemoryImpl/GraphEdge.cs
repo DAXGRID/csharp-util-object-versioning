@@ -6,8 +6,8 @@ namespace DAX.ObjectVersioning.Graph
 {
     public class GraphEdge : GraphObject, IGraphEdge
     {
-        private readonly GraphNode _inV;
-        private readonly GraphNode _outV;
+        private GraphNode _inV;
+        private GraphNode _outV;
 
         public GraphEdge(Guid id, GraphNode fromNode, GraphNode toNode) : base(id)
         {
@@ -36,6 +36,16 @@ namespace DAX.ObjectVersioning.Graph
             neighbors.Add(OutV(version));
 
             return neighbors;
+        }
+
+        /// <summary>
+        /// Copy ingoing and outgoing node relationships from this edge to another edge
+        /// </summary>
+        /// <param name="copyTo"></param>
+        public void CopyNodeRelationshipsTo(GraphEdge copyTo)
+        {
+            copyTo._inV = this._inV;
+            copyTo._outV = this._outV;
         }
     }
 }
