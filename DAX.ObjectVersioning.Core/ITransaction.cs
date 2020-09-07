@@ -9,9 +9,9 @@ namespace DAX.ObjectVersioning.Core
         IVersion Version { get; }
         void Rollback();
         void Commit();
-        IVersionedObject Add(IVersionedObject @object);
-        void Delete(Guid id);
-        void Update(IVersionedObject @object);
+        IVersionedObject Add(IVersionedObject @object, bool ignoreDublicates = false);
+        void Delete(Guid id, bool ignoreDublicates = false);
+        void Update(IVersionedObject @object, bool ignoreDublicates = false);
         IVersionedObject? GetObject(Guid id);
     }
 }

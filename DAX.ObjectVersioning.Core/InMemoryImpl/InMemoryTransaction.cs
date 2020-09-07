@@ -32,16 +32,26 @@ namespace DAX.ObjectVersioning.Core.Memory
 
         public IVersion Version => _version;
 
-        public IVersionedObject Add(IVersionedObject @object)
+        public IVersionedObject Add(IVersionedObject @object, bool ignoreDublicates = false)
         {
             if (_transactionState != TransactionState.Running)
                 throw new OperationCanceledException($"Cannot add objects when transaction state = {_transactionState.ToString() }");
 
             if (_objectManager.GetObject(@object.Id) != null)
-                throw new OperationCanceledException($"An object with id: {@object.Id} is already present in the object manager. If you want to update an existing object, please use Update instead.");
+            {
+                if (ignoreDublicates) 
+                    return @object;
+                else
+                    throw new OperationCanceledException($"An object with id: {@object.Id} is already present in the object manager. If you want to update an existing object, please use Update instead.");
+            }
 
             if (_addedObjects.ContainsKey(@object.Id))
-                throw new OperationCanceledException($"An object with id: {@object.Id} is already added in this transaction.");
+            {
+                if (ignoreDublicates)
+                    return @object;
+                else
+                    throw new OperationCanceledException($"An object with id: {@object.Id} is already added in this transaction.");
+            }
 
             // Check if pointer to same object has been added before
             if (_objectManager._objectAdditionStates.ContainsKey(@object.Id))
@@ -58,13 +68,18 @@ namespace DAX.ObjectVersioning.Core.Memory
         }
 
 
-        public void Update(IVersionedObject @object)
+        public void Update(IVersionedObject @object, bool ignoreDublicates = false)
         {
             if (_transactionState != TransactionState.Running)
                 throw new OperationCanceledException($"Cannot update objects when transaction state = {_transactionState.ToString() }");
 
             if (_updatedObjects.ContainsKey(@object.Id))
-                throw new OperationCanceledException($"An object with id: {@object.Id} is already updated once in this transaction.");
+            {
+                if (ignoreDublicates)
+                    return;
+                else
+                    throw new OperationCanceledException($"An object with id: {@object.Id} is already updated once in this transaction.");
+            }
 
             if (!_objectManager._objectAdditionStates.ContainsKey(@object.Id))
                 throw new OperationCanceledException($"An object with id: {@object.Id} is not present in the object manager. You cannot update an object, unless it has been added in a previous transaction.");
@@ -81,7 +96,7 @@ namespace DAX.ObjectVersioning.Core.Memory
             _updatedObjects.Add(@object.Id, @object);
         }
 
-        public void Delete(Guid id)
+        public void Delete(Guid id, bool ignoreDublicates = false)
         {
             if (_transactionState != TransactionState.Running)
                 throw new OperationCanceledException($"Cannot update objects when transaction state = {_transactionState.ToString() }");
@@ -90,22 +105,20 @@ namespace DAX.ObjectVersioning.Core.Memory
                 throw new OperationCanceledException($"An object with id: {id} is not present in the object manager or in the transaction.");
 
             if (_deletedIds.Contains(id))
-                throw new OperationCanceledException($"An object with id: {id} is already deleted in this transaction.");
+            {
+                if (ignoreDublicates)
+                    return;
+                else
+                    throw new OperationCanceledException($"An object with id: {id} is already deleted in this transaction.");
+            }
 
             if (!_addedObjects.ContainsKey(id) && _objectManager.GetObject(id) == null)
-                throw new OperationCanceledException($"An object with id: {id} is already deleted.");
-
-            /*
-            if (_addedObjects.ContainsKey(id))
             {
-                //throw new OperationCanceledException($"An object with id: {id} is already added in this transaction. Adding and deleting an object in the same transaction is not allowed.");
-                _addedObjects.Remove(id);
+                if (ignoreDublicates)
+                    return;
+                else
+                    throw new OperationCanceledException($"An object with id: {id} is already deleted.");
             }
-            else
-            {
-                _deletedIds.Add(id);
-            }
-            */
 
             _deletedIds.Add(id);
         }
