@@ -20,7 +20,7 @@ namespace DAX.ObjectVersioning.Graph
         {
             foreach (var edge in _outE)
             {
-                if (edge.CreationVersion.InternalVersionId <= version && (edge.DeletionVersion == null || edge.DeletionVersion?.InternalVersionId > version))
+                if (edge.CreationVersion != null && edge.CreationVersion.InternalVersionId <= version && (edge.DeletionVersion == null || edge.DeletionVersion?.InternalVersionId > version))
                     yield return edge;
             }
         }
@@ -29,7 +29,7 @@ namespace DAX.ObjectVersioning.Graph
         {
             foreach (var edge in _inE)
             {
-                if (edge.CreationVersion.InternalVersionId <= version && (edge.DeletionVersion == null || edge.DeletionVersion.InternalVersionId > version))
+                if (edge.CreationVersion != null && edge.CreationVersion.InternalVersionId <= version && (edge.DeletionVersion == null || edge.DeletionVersion.InternalVersionId > version))
                     yield return edge;
             }
         }

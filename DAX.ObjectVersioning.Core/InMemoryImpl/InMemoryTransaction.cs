@@ -128,6 +128,11 @@ namespace DAX.ObjectVersioning.Core.Memory
             // Process added objects
             foreach (var obj in _addedObjects)
             {
+                if (obj.Key == Guid.Parse("ee710eb4-958f-4c5b-856d-1d6734272388"))
+                {
+
+                }
+
                 // Set creation state
                 obj.Value.CreationVersion = _version;
 
