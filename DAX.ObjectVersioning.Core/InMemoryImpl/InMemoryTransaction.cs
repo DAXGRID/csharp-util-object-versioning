@@ -166,6 +166,12 @@ namespace DAX.ObjectVersioning.Core.Memory
             // Process updated objects
             foreach (var obj in _updatedObjects)
             {
+                // Mark current object to be deleted
+                var objToDelete = _objectManager.GetObject(obj.Value.Id);
+
+                if (objToDelete != null)
+                    objToDelete.DeletionVersion = _version;
+
                 // Set creation state
                 obj.Value.CreationVersion = _version;
 
