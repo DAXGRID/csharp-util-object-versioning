@@ -14,8 +14,11 @@ namespace DAX.ObjectVersioning.Graph
             _inV = fromNode;
             _outV = toNode;
          
-            fromNode.AddOutgoingEdge(this);
-            toNode.AddIngoingEdge(this);
+            if (fromNode != null)
+                fromNode.AddOutgoingEdge(this);
+
+            if (toNode != null)
+                toNode.AddIngoingEdge(this);
         }
 
         public IGraphNode InV(long version)
@@ -32,8 +35,11 @@ namespace DAX.ObjectVersioning.Graph
         {
             var neighbors = new List<IGraphObject>();
 
-            neighbors.Add(InV(version));
-            neighbors.Add(OutV(version));
+            if (_inV != null)
+                neighbors.Add(InV(version));
+
+            if (_outV != null)
+                neighbors.Add(OutV(version));
 
             return neighbors;
         }
