@@ -1,11 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
-    <Version>0.0.1</Version>
-    <Company>DAX</Company>
-    <Product>DAX</Product>
-    <Authors>DAX</Authors>
+    <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
 
 </Project>
